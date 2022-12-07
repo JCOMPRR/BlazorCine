@@ -1,0 +1,70 @@
+﻿@page "/cartelera"
+@using BlazorCine.Shared.DTOs.Carteleras;
+
+<h3>Carteleras</h3>
+
+<div class="row justify-content-end">
+    <div class="col-lg-3 text-end">
+        <button type="button" class="btn btn-success" @onclick=@(() => navigationManager.NavigateTo("Cartelera"))>Agregar</button>
+    </div>
+</div>
+
+if (carteleras == null)
+{
+    <h1>Cargando...</h1>
+}
+else if (carteleras.Count == 0)
+{
+    <h1>No se encontraron funciones registradas...</h1>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table text-center table-hover">
+            <thead class="table-striped">
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Horario</th>
+                    <th scope="col">Sala</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var cartelera in carteleras)
+                {
+                    <tr>
+                        <td>@cartelera.Id</td>
+                        <td>@cartelera.Nombre</td>
+                        <td>@cartelera.Horario</td>
+                        <td>@cartelera.Sala</td>
+
+
+                        <td>
+                            <button class="btn btn-primary" type="button" @onclick=@(() => navigationManager.NavigateTo($"cartelera/{cartelera.Id}"))>Editar</button>
+                            <button class="btn btn-danger" type="button" @onclick="@(() => Eliminar(cartelera))">Eliminar</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@code {
+    protected List<CarteleraDTO> carteleras;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await httpClient.GetFromJsonAsync<List<CarteleraDTO>>("api/cartelerasDTO");
+        if (response != null)
+        {
+            carteleras = response;
+        }
+    }
+
+    protected async Task Eliminar(CarteleraDTO cartelera)
+    {
+        await httpClient.DeleteAsync($"api/carteleras/{cartelera.Id}");
+        carteleras.Remove(cartelera);
+    }
+}

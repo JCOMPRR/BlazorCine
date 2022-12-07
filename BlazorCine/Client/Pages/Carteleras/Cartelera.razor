@@ -1,0 +1,83 @@
+﻿@page "/cartelera"
+@page "/cartelera/{id:int}"
+
+@using BlazorCine.Shared.DTOs.Carteleras;
+
+@inject HttpClient httpClient
+@inject NavigationManager navigationManager
+
+<h3>Cartelera</h3>
+
+<EditForm Model="cartelera" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+
+    <div class="col-lg-12">
+        <div class="mb-3">
+            <label class="form-label">Id</label>
+            <InputText id="Id" class="form-control" @bind-Value="@cartelera.Id" />
+            <ValidationMessage For="@(() => cartelera.Id)" />
+        </div>
+    </div>
+
+     <div class="col-lg-12">
+        <div class="mb-3">
+           <label class="form-label">Nombre</label>
+            <InputText id="Nombre" class="form-control" @bind-Value="@cartelera.Nombre" />
+            <ValidationMessage For="@(() => cartelera.Nombre)" />
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+        <div class="mb-3">
+           <label class="form-label">Horario</label>
+            <InputText id="Horario" class="form-control" @bind-Value="@cartelera.Horario" />
+            <ValidationMessage For="@(() => cartelera.Nombre)" />
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+        <div class="mb-3">
+           <label class="form-label">Sala</label>
+            <InputText id="Sala" class="form-control" @bind-Value="@cartelera.Sala" />
+            <ValidationMessage For="@(() => cartelera.Sala)" />
+        </div>
+    </div>
+
+    <div class="col-1g-12 text-end mb-3 pt-4">
+        <hr />
+        <button type="button" class="btn btn-danger" onclick="history.back()">Cancelar</button>
+        <button type="submit" class="btn btn-success">Guardar</button>
+    </div>
+
+</EditForm>
+
+@code {
+    protected CarteleraDTO cartelera = new CarteleraDTO();
+    [Parameter] public int id { get; set; } = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (id > 0)
+        {
+            var response = await httpClient.GetFromJsonAsync<CarteleraDTO>($"api/carteleras/{id}");
+            if (response != null)
+            {
+                cartelera = response;
+            }
+        }
+    }
+
+    private async Task OnValidSubmit()
+    {
+        if (id > 0)
+        {
+            await httpClient.PutAsJsonAsync<CarteleraDTO>("api/carteleras", cartelera);
+        }
+        else
+        {
+            await httpClient.PostAsJsonAsync<CarteleraDTO>("api/carteleras", cartelera);
+        }
+
+        navigationManager.NavigateTo("carteleras");
+    }
+}
