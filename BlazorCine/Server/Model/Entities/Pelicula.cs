@@ -4,7 +4,7 @@ namespace BlazorCine.Server.Model.Entities
 {
     public class Pelicula
     {
-        public string IdPelicula { get; set; } 
+        public int Id { get; set; } 
         public string Nombre { get; set; }
         public int Duracion { get; set; }
         public string Idioma { get; set; }

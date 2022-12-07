@@ -3,85 +3,104 @@ using BlazorCine.Server.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BlazorCine.Shared.DTOs.Carteleras;
-    
+
 namespace BlazorCine.Server.Controllers
 {
     [ApiController, Route("api/carteleras")]
 
-    public class CartelerasController
+    public class CartelerasController : ControllerBase
     {
         private readonly ApplicationDbContext context;
 
-        public AlumnosController(ApplicationDbContext context)
+        public CartelerasController(ApplicationDbContext context)
         {
             this.context = context;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<AlumnoDTO>>> GetAlumnos()
+        public async Task<ActionResult<List<CarteleraDTO>>> GetCarteleras()
         {
-            var alumnos = await context.Alumnos.ToListAsync();
+            var carteleras = await context.Carteleras.ToListAsync();
 
-            var alumnosDto = new List<AlumnoDTO>();
+            var cartelerasDto = new List<CarteleraDTO>();
 
-            foreach (var alumno in alumnos)
+            foreach (var cartelera in carteleras)
             {
-                var alumnoDto = new AlumnoDTO();
-                alumnoDto.Id = alumno.Id;
-                alumnoDto.Nombre = alumno.Nombre;
-                alumnoDto.Matricula = alumno.Matricula;
+                var carteleraDto = new CarteleraDTO();
+                carteleraDto.Id = cartelera.Id;
+                carteleraDto.Nombre = cartelera.Nombre;
+                carteleraDto.Horario = cartelera.Horario;
+                carteleraDto.Sala = cartelera.Sala;
 
-                alumnosDto.Add(alumnoDto);
+
+                cartelerasDto.Add(carteleraDto);
             }
-            return alumnosDto;
+            return cartelerasDto;
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<AlumnoDTO>> GetAlumno(int id)
+        public async Task<ActionResult<CarteleraDTO>> GetCartelera(int id)
         {
-            var alumno = await context.Alumnos
+            var cartelera = await context.Carteleras
                 .FirstOrDefaultAsync(x => x.Id == id);
 
-            if (alumno == null)
+            if (cartelera == null)
             {
                 return NotFound();
             }
 
-            var alumnoDto = new AlumnoDTO();
-            alumnoDto.Id = alumno.Id;
-            alumnoDto.Nombre = alumno.Nombre;
-            alumnoDto.Matricula = alumno.Matricula;
+            var carteleraDto = new CarteleraDTO();
+            carteleraDto.Id = cartelera.Id;
+            carteleraDto.Nombre = cartelera.Nombre;
+            carteleraDto.Horario = cartelera.Horario;
+            carteleraDto.Sala = cartelera.Sala;
 
-            return alumnoDto;
+            return carteleraDto;
         }
 
-        [HttpPost]
-        public async Task<ActionResult> Add([FromBody] AlumnoDTO alumnoDto)
+        //Funcion agregada por fallo del "return carteleraDto, Eliminar si no es necesario"
+        private ActionResult<CarteleraDTO> NotFound()
         {
-            var alumno = new Alumno();
-            alumno.Nombre = alumnoDto.Nombre;
-            alumno.Matricula = alumnoDto.Matricula;
+            throw new NotImplementedException();
+        }
 
-            context.Alumnos.Add(alumno);
+
+        [HttpPost]
+        public async Task<ActionResult> Add([FromBody] CarteleraDTO carteleraDto)
+        {
+            var cartelera = new Cartelera();
+            cartelera.Nombre = carteleraDto.Nombre;
+            cartelera.Horario = carteleraDto.Horario;
+            cartelera.Sala = carteleraDto.Sala;
+
+            context.Carteleras.Add(cartelera);
             await context.SaveChangesAsync();
             return Ok();
         }
 
-        [HttpPut]
-        public async Task<ActionResult> Edit([FromBody] AlumnoDTO alumnoDto)
+        //Funcion agregada por fallo del "return Ok(), Eliminar si no es necesario"
+        private ActionResult Ok()
         {
-            var alumnoDb = await context.Alumnos
-                .FirstOrDefaultAsync(x => x.Id == alumnoDto.Id);
+            throw new NotImplementedException();
+        }
 
-            if (alumnoDb == null)
+        [HttpPut]
+        public async Task<ActionResult> Edit([FromBody] CarteleraDTO carteleraDto)
+        {
+            var carteleraDb = await context.Carteleras
+                .FirstOrDefaultAsync(x => x.Id == carteleraDto.Id);
+
+            if (carteleraDb == null)
             {
-                return NotFound();
+                //Eliminar lo que esta en el () por si acaso 
+                return NotFound(carteleraDb);
             }
 
-            alumnoDb.Nombre = alumnoDto.Nombre;
-            alumnoDb.Matricula = alumnoDto.Matricula;
+            carteleraDb.Nombre = carteleraDto.Nombre;
+            carteleraDb.Horario = carteleraDto.Horario;
+            carteleraDb.Sala = carteleraDto.Sala;
 
-            context.Alumnos.Update(alumnoDb);
+            context.Carteleras.Update(carteleraDb);
             await context.SaveChangesAsync();
             return Ok();
         }
@@ -89,15 +108,16 @@ namespace BlazorCine.Server.Controllers
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var alumnoDb = await context.Alumnos
+            var carteleraDb = await context.Carteleras
                 .FirstOrDefaultAsync(x => x.Id == id);
 
-            if (alumnoDb == null)
+            if (carteleraDb == null)
             {
-                return NotFound();
+                //Eliminar lo que esta en el () por si acaso
+                return NotFound(carteleraDb);
             }
 
-            context.Alumnos.Remove(alumnoDb);
+            context.Carteleras.Remove(carteleraDb);
             await context.SaveChangesAsync();
             return Ok();
         }

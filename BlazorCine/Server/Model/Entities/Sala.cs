@@ -4,7 +4,7 @@ namespace BlazorCine.Server.Model.Entities
 {
     public class Sala
     {
-        public int IdSala { get; set; }
+        public int Id { get; set; }
        
         [Required]
         public string TipoSala { get; set; }

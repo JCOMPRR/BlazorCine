@@ -9,7 +9,7 @@ namespace BlazorCine.Shared.DTOs.Salas
 {
     public class SalaDTO
     {
-        public int IdSala { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public string TipoSala { get; set; }
