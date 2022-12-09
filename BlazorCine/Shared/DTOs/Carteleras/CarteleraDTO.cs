@@ -12,7 +12,7 @@ namespace BlazorCine.Shared.DTOs.Carteleras
         public int Id { get; set; }
 
         [Required]
-        public string Nombre { get; set; }
+        public string? Nombre { get; set; }
 
         [Required]
         public int Horario { get; set; }

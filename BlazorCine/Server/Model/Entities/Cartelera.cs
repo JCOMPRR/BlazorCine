@@ -7,7 +7,7 @@ namespace BlazorCine.Server.Model.Entities
         public int Id { get; set; }
 
         [Required]
-        public string Nombre { get; set; }
+        public string? Nombre { get; set; }
 
         [Required]
         public int Horario { get; set; }
@@ -17,9 +17,9 @@ namespace BlazorCine.Server.Model.Entities
 
 
 
-        public List<Horario> Horarios { get; set; }
-        public List<Sala> Salas { get; set; }
-        public List<Pelicula> Peliculas { get; set; }
+        public List<Horario>? Horarios { get; set; }
+        public List<Sala>? Salas { get; set; }
+        public List<Pelicula>? Peliculas { get; set; }
 
 
     }

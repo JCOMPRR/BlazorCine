@@ -26,10 +26,12 @@ namespace BlazorCine.Server.Controllers
 
             foreach (var pelicula in peliculas)
             {
-                var peliculaDto = new PeliculaDTO();
-                peliculaDto.Id = pelicula.Id;
-                peliculaDto.Nombre = pelicula.Nombre;
-                peliculaDto.Duracion = pelicula.Duracion;
+                PeliculaDTO? peliculaDto = new()
+                {
+                    Id = pelicula.Id,
+                    Nombre = pelicula.Nombre,
+                    Duracion = pelicula.Duracion
+                };
 
                 PeliculasDto.Add(peliculaDto);
             }
@@ -47,10 +49,12 @@ namespace BlazorCine.Server.Controllers
                 return NotFound();
             }
 
-            var peliculaDto = new PeliculaDTO();
-            peliculaDto.Id = pelicula.Id;
-            peliculaDto.Nombre = pelicula.Nombre;
-            peliculaDto.Duracion = pelicula.Duracion;
+            var peliculaDto = new PeliculaDTO
+            {
+                Id = pelicula.Id,
+                Nombre = pelicula.Nombre,
+                Duracion = pelicula.Duracion
+            };
 
             return peliculaDto;
         }
@@ -58,9 +62,11 @@ namespace BlazorCine.Server.Controllers
         [HttpPost]
         public async Task<ActionResult> Add([FromBody] PeliculaDTO peliculaDto)
         {
-            var pelicula = new Pelicula();
-            pelicula.Nombre = peliculaDto.Nombre;
-            pelicula.Duracion = peliculaDto.Duracion;
+            var pelicula = new Pelicula
+            {
+                Nombre = peliculaDto.Nombre,
+                Duracion = peliculaDto.Duracion
+            };
 
             context.Peliculas.Add(pelicula);
             await context.SaveChangesAsync();

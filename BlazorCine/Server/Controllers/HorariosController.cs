@@ -25,9 +25,11 @@ namespace BlazorCine.Server.Controllers
 
             foreach (var horario in horarios)
             {
-                var horarioDto = new HorarioDTO();
-                horarioDto.Id = horario.Id;
-                horarioDto.Hora = horario.Hora;
+                var horarioDto = new HorarioDTO
+                {
+                    Id = horario.Id,
+                    Hora = horario.Hora
+                };
 
                 HorariosDto.Add(horarioDto);
             }
@@ -45,9 +47,11 @@ namespace BlazorCine.Server.Controllers
                 return NotFound();
             }
 
-            var horarioDto = new HorarioDTO();
-            horarioDto.Id = horario.Id;
-            horarioDto.Hora = horario.Hora;
+            var horarioDto = new HorarioDTO
+            {
+                Id = horario.Id,
+                Hora = horario.Hora
+            };
 
             return horarioDto;
         }
@@ -55,8 +59,10 @@ namespace BlazorCine.Server.Controllers
         [HttpPost]
         public async Task<ActionResult> Add([FromBody] HorarioDTO horarioDto)
         {
-            var horario = new Horario();
-            horario.Hora = horarioDto.Hora;
+            var horario = new Horario
+            {
+                Hora = horarioDto.Hora
+            };
 
             context.Horarios.Add(horario);
             await context.SaveChangesAsync();
