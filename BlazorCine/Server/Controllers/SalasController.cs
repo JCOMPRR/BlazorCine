@@ -36,7 +36,7 @@ namespace BlazorCine.Server.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<SalaDTO>> GetSalas(int id)
+        public async Task<ActionResult<SalaDTO>> GetSalas(int id, SalaDTO salaDto)
         {
             var sala = await context.Salas
                 .FirstOrDefaultAsync(x => x.Id == id);
@@ -46,12 +46,11 @@ namespace BlazorCine.Server.Controllers
                 return NotFound();
             }
 
-            var salaDto = new SalaDTO();
-            salaDto.Id = sala.Id;
-            salaDto.TipoSala = sala.TipoSala;
-            salaDto.PrecioSala = sala.PrecioSala;
+            new SalaDTO().Id = sala.Id;
+            new SalaDTO().TipoSala = sala.TipoSala;
+            new SalaDTO().PrecioSala = sala.PrecioSala;
 
-            return salaDto;
+            return new SalaDTO();
         }
 
         [HttpPost]
