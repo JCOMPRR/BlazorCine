@@ -1,5 +1,7 @@
 ﻿@page "/cartelera"
 @using BlazorCine.Shared.DTOs.Carteleras;
+@inject NavigationManager navigationManager
+@inject HttpClient httpClient
 
 <h3>Carteleras</h3>
 
@@ -53,9 +55,14 @@ else
 @code {
     protected List<CarteleraDTO> carteleras;
 
+    public Carteleras(List<CarteleraDTO> carteleras)
+    {
+        this.carteleras = carteleras;
+    }
+
     protected override async Task OnInitializedAsync()
     {
-        var response = await httpClient.GetFromJsonAsync<List<CarteleraDTO>>("api/cartelerasDTO");
+        var response = await httpClient.GetFromJsonAsync<List<CarteleraDTO>>("api/carteleraDTO");
         if (response != null)
         {
             carteleras = response;

@@ -26,11 +26,13 @@ namespace BlazorCine.Server.Controllers
 
             foreach (var cartelera in carteleras)
             {
-                var carteleraDto = new CarteleraDTO();
-                carteleraDto.Id = cartelera.Id;
-                carteleraDto.Nombre = cartelera.Nombre;
-                carteleraDto.Horario = cartelera.Horario;
-                carteleraDto.Sala = cartelera.Sala;
+                var carteleraDto = new CarteleraDTO
+                {
+                    Id = cartelera.Id,
+                    Nombre = cartelera.Nombre,
+                    Horario = cartelera.Horario,
+                    Sala = cartelera.Sala
+                };
 
 
                 cartelerasDto.Add(carteleraDto);
@@ -46,43 +48,41 @@ namespace BlazorCine.Server.Controllers
 
             if (cartelera == null)
             {
-                return NotFound();
+                return NotFound;
             }
 
-            var carteleraDto = new CarteleraDTO();
-            carteleraDto.Id = cartelera.Id;
-            carteleraDto.Nombre = cartelera.Nombre;
-            carteleraDto.Horario = cartelera.Horario;
-            carteleraDto.Sala = cartelera.Sala;
+            var carteleraDto = new CarteleraDTO
+            {
+                Id = cartelera.Id,
+                Nombre = cartelera.Nombre,
+                Horario = cartelera.Horario,
+                Sala = cartelera.Sala
+            };
 
             return carteleraDto;
         }
 
         //Funcion agregada por fallo del "return carteleraDto, Eliminar si no es necesario"
-        private ActionResult<CarteleraDTO> NotFound()
-        {
-            throw new NotImplementedException();
-        }
+        private new ActionResult<CarteleraDTO> NotFound => throw new NotImplementedException();
 
 
         [HttpPost]
         public async Task<ActionResult> Add([FromBody] CarteleraDTO carteleraDto)
         {
-            var cartelera = new Cartelera();
-            cartelera.Nombre = carteleraDto.Nombre;
-            cartelera.Horario = carteleraDto.Horario;
-            cartelera.Sala = carteleraDto.Sala;
+            var cartelera = new Cartelera
+            {
+                Nombre = carteleraDto.Nombre,
+                Horario = carteleraDto.Horario,
+                Sala = carteleraDto.Sala
+            };
 
             context.Carteleras.Add(cartelera);
             await context.SaveChangesAsync();
-            return Ok();
+            return Ok;
         }
 
         //Funcion agregada por fallo del "return Ok(), Eliminar si no es necesario"
-        private ActionResult Ok()
-        {
-            throw new NotImplementedException();
-        }
+        private new ActionResult Ok => throw new NotImplementedException();
 
         [HttpPut]
         public async Task<ActionResult> Edit([FromBody] CarteleraDTO carteleraDto)
@@ -102,7 +102,7 @@ namespace BlazorCine.Server.Controllers
 
             context.Carteleras.Update(carteleraDb);
             await context.SaveChangesAsync();
-            return Ok();
+            return Ok;
         }
 
         [HttpDelete("{id:int}")]
@@ -119,7 +119,7 @@ namespace BlazorCine.Server.Controllers
 
             context.Carteleras.Remove(carteleraDb);
             await context.SaveChangesAsync();
-            return Ok();
+            return Ok;
         }
     }
 }

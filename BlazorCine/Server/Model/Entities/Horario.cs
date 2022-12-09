@@ -12,6 +12,6 @@ namespace BlazorCine.Server.Model.Entities
 
 
         public int CarteleraId { get; set; }
-        public Cartelera Carteleras { get; set; }
+        public Cartelera? Carteleras { get; set; }
     }
 }

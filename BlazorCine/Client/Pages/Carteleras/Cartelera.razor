@@ -1,8 +1,6 @@
 ﻿@page "/cartelera"
 @page "/cartelera/{id:int}"
-
 @using BlazorCine.Shared.DTOs.Carteleras;
-
 @inject HttpClient httpClient
 @inject NavigationManager navigationManager
 
@@ -11,13 +9,15 @@
 <EditForm Model="cartelera" OnValidSubmit="OnValidSubmit">
     <DataAnnotationsValidator />
 
-    <div class="col-lg-12">
-        <div class="mb-3">
-            <label class="form-label">Id</label>
-            <InputText id="Id" class="form-control" @bind-Value="@cartelera.Id" />
-            <ValidationMessage For="@(() => cartelera.Id)" />
+    <label>
+        <div class="col-lg-12">
+            <div class="mb-3">
+             <label class="form-label">Id</label>
+             <InputNumber id="Id" class="form-control" @bind-Value="@cartelera.Id" />
+             <ValidationMessage For="@(() => cartelera.Id)" />
+            </div>
         </div>
-    </div>
+    </label>
 
      <div class="col-lg-12">
         <div class="mb-3">
@@ -30,7 +30,7 @@
     <div class="col-lg-12">
         <div class="mb-3">
            <label class="form-label">Horario</label>
-            <InputText id="Horario" class="form-control" @bind-Value="@cartelera.Horario" />
+            <InputNumber id="Horario" class="form-control" @bind-Value="@cartelera.Horario" />
             <ValidationMessage For="@(() => cartelera.Nombre)" />
         </div>
     </div>
