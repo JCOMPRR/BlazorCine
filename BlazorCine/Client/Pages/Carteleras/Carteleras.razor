@@ -53,12 +53,12 @@ else
 }
 
 @code {
-    protected List<CarteleraDTO> carteleras;
+    protected List<CarteleraDTO> carteleras = new List<CarteleraDTO>();
 
-    public Carteleras(List<CarteleraDTO> carteleras)
-    {
-        this.carteleras = carteleras;
-    }
+    //public Carteleras(List<CarteleraDTO> carteleras)
+    //{
+    //    this.carteleras = carteleras;
+    //}
 
     protected override async Task OnInitializedAsync()
     {

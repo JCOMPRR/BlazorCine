@@ -25,10 +25,7 @@ namespace BlazorCine.Server.Controllers
 
             foreach (var sala in salas)
             {
-                var salaDto = new SalaDTO();
-                salaDto.Id = sala.Id;
-                salaDto.TipoSala = sala.TipoSala;
-                salaDto.PrecioSala = sala.PrecioSala;
+                SalaDTO? salaDto = new SalaDTO { Id = sala.Id, TipoSala = sala.TipoSala, PrecioSala = sala.PrecioSala };
 
                 SalasDto.Add(salaDto);
             }
@@ -36,7 +33,7 @@ namespace BlazorCine.Server.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<SalaDTO>> GetSalas(int id, SalaDTO salaDto)
+        public async Task<ActionResult<SalaDTO>> GetSalas(int id)
         {
             var sala = await context.Salas
                 .FirstOrDefaultAsync(x => x.Id == id);
@@ -46,19 +43,24 @@ namespace BlazorCine.Server.Controllers
                 return NotFound();
             }
 
-            new SalaDTO().Id = sala.Id;
-            new SalaDTO().TipoSala = sala.TipoSala;
-            new SalaDTO().PrecioSala = sala.PrecioSala;
+            SalaDTO? salaDto = new()
+            {
+                Id = sala.Id,
+                TipoSala = sala.TipoSala,
+                PrecioSala = sala.PrecioSala
+            };
 
-            return new SalaDTO();
+            return salaDto;
         }
 
         [HttpPost]
         public async Task<ActionResult> Add([FromBody] SalaDTO salaDto)
         {
-            var sala = new Sala();
-            sala.TipoSala = salaDto.TipoSala;
-            sala.PrecioSala = salaDto.PrecioSala;
+            var sala = new Sala
+            {
+                TipoSala = salaDto.TipoSala,
+                PrecioSala = salaDto.PrecioSala
+            };
 
             context.Salas.Add(sala);
             await context.SaveChangesAsync();

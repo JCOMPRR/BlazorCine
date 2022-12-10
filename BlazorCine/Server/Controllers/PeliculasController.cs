@@ -26,12 +26,7 @@ namespace BlazorCine.Server.Controllers
 
             foreach (var pelicula in peliculas)
             {
-                PeliculaDTO? peliculaDto = new()
-                {
-                    Id = pelicula.Id,
-                    Nombre = pelicula.Nombre,
-                    Duracion = pelicula.Duracion
-                };
+                PeliculaDTO? peliculaDto = new() { Id = pelicula.Id, Nombre = pelicula.Nombre, Duracion = pelicula.Duracion };
 
                 PeliculasDto.Add(peliculaDto);
             }

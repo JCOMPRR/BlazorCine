@@ -48,12 +48,12 @@ else
 }
 
 @code {
-    protected List<HorarioDTO> horarios;
+    protected List<HorarioDTO> horarios = new List<HorarioDTO>();
 
-    public Horarios(List<HorarioDTO> horarios)
-    {
-        this.horarios = horarios;
-    }
+    //public Horarios(List<HorarioDTO> horarios)
+    //{
+    //    this.horarios = horarios;
+    //}
 
     protected override async Task OnInitializedAsync()
     {
