@@ -1,4 +1,4 @@
-﻿@page "/horario"
+﻿@page "/horarios"
 @using BlazorCine.Shared.DTOs.Horarios;
 @inject NavigationManager navigationManager
 @inject HttpClient httpClient
@@ -49,11 +49,6 @@ else
 
 @code {
     protected List<HorarioDTO> horarios = new List<HorarioDTO>();
-
-    //public Horarios(List<HorarioDTO> horarios)
-    //{
-    //    this.horarios = horarios;
-    //}
 
     protected override async Task OnInitializedAsync()
     {

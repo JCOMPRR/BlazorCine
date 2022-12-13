@@ -1,4 +1,4 @@
-﻿@page "/cartelera"
+﻿@page "/carteleras"
 @using BlazorCine.Shared.DTOs.Carteleras;
 @inject NavigationManager navigationManager
 @inject HttpClient httpClient
@@ -42,7 +42,7 @@ else
 
 
                         <td>
-                            <button class="btn btn-primary" type="button" @onclick=@(() => navigationManager.NavigateTo($"cartelera/{cartelera.Id}"))>Editar</button>
+                            <button class="btn btn-primary" type="button" @onclick=@(() => navigationManager.NavigateTo($"carteleras/{cartelera.Id}"))>Editar</button>
                             <button class="btn btn-danger" type="button" @onclick="@(() => Eliminar(cartelera))">Eliminar</button>
                         </td>
                     </tr>
@@ -55,14 +55,10 @@ else
 @code {
     protected List<CarteleraDTO> carteleras = new List<CarteleraDTO>();
 
-    //public Carteleras(List<CarteleraDTO> carteleras)
-    //{
-    //    this.carteleras = carteleras;
-    //}
 
     protected override async Task OnInitializedAsync()
     {
-        var response = await httpClient.GetFromJsonAsync<List<CarteleraDTO>>("api/carteleraDTO");
+        var response = await httpClient.GetFromJsonAsync<List<CarteleraDTO>>("api/carteleras");
         if (response != null)
         {
             carteleras = response;
@@ -74,4 +70,4 @@ else
         await httpClient.DeleteAsync($"api/carteleras/{cartelera.Id}");
         carteleras.Remove(cartelera);
     }
-}
+}   
