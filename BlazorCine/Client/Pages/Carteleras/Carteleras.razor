@@ -42,7 +42,7 @@ else
 
 
                         <td>
-                            <button class="btn btn-primary" type="button" @onclick=@(() => navigationManager.NavigateTo($"carteleras/{cartelera.Id}"))>Editar</button>
+                            <button class="btn btn-primary" type="button" @onclick=@(() => navigationManager.NavigateTo($"cartelera/{cartelera.Id}"))>Editar</button>
                             <button class="btn btn-danger" type="button" @onclick="@(() => Eliminar(cartelera))">Eliminar</button>
                         </td>
                     </tr>
