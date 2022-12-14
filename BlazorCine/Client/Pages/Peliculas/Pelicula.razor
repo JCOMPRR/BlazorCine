@@ -1,5 +1,72 @@
-﻿<h3>Pelicula</h3>
+﻿@page "/pelicula"
+@page "/pelicula/{id:int}"
+@using BlazorCine.Shared.DTOs.Peliculas;
+@inject HttpClient httpClient
+@inject NavigationManager navigationManager
+
+<h3>Pelicula</h3>
+
+<EditForm Model="pelicula" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+     <div class="col-lg-12">
+        <div class="mb-3">
+           <label class="form-label">Nombre</label>
+            <InputText id="Nombre" class="form-control" @bind-Value="@pelicula.Nombre" />
+            <ValidationMessage For="@(() => pelicula.Nombre)" />
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+        <div class="mb-3">
+           <label class="form-label">Duracion</label>
+            <InputNumber id="Hora" class="form-control" @bind-Value="@pelicula.Duracion" />
+            <ValidationMessage For="@(() => pelicula.Duracion)" />
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+        <div class="mb-3">
+           <label class="form-label">Idioma</label>
+            <InputText id="Idioma" class="form-control" @bind-Value="@pelicula.Idioma" />
+            <ValidationMessage For="@(() => pelicula.Idioma)" />
+        </div>
+    </div>
+
+    <div class="col-1g-12 text-end mb-3 pt-4">
+        <hr />
+        <button type="button" class="btn btn-danger" onclick="history.back()">Cancelar</button>
+        <button type="submit" class="btn btn-success">Guardar</button>
+    </div>
+
+</EditForm>
 
 @code {
+    protected PeliculaDTO pelicula = new PeliculaDTO();
+    [Parameter] public int id { get; set; } = 0;
 
+    protected override async Task OnInitializedAsync()
+    {
+        if (id > 0)
+        {
+            var response = await httpClient.GetFromJsonAsync<PeliculaDTO>($"api/peliculas/{id}");
+            if (response != null)
+            {
+                pelicula = response;
+            }
+        }
+    }
+
+    private async Task OnValidSubmit()
+    {
+        if (id > 0)
+        {
+            await httpClient.PutAsJsonAsync<PeliculaDTO>("api/peliculas", pelicula);
+        }
+        else
+        {
+            await httpClient.PostAsJsonAsync<PeliculaDTO>("api/peliculas", pelicula);
+        }
+
+        navigationManager.NavigateTo("peliculas");
+    }
 }

@@ -1,5 +1,55 @@
-﻿<h3>Salas</h3>
+﻿@page "/salas"
+@using BlazorCine.Shared.DTOs.Salas;
+@inject NavigationManager navigationManager
+@inject HttpClient httpClient
+
+<h3>Salas</h3>
+
+<div class="row justify-content-end">
+    <div class="col-lg-3 text-end">
+        <button type="button" class="btn btn-success" @onclick=@(() => navigationManager.NavigateTo("Sala"))>Agregar</button>
+    </div>
+</div>
+
+    <div class="table-responsive">
+        <table class="table text-center table-hover">
+            <thead class="table-striped">
+                <tr>
+                    <th scope="col">Tipo de sala</th>
+                    <th scope="col">Precio de sala</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var sala in salas)
+                {
+                    <tr>
+                        <td>@sala.TipoSala</td>
+                        <td>@sala.PrecioSala</td>
+                        <td>
+                            <button class="btn btn-primary" type="button" @onclick=@(() => navigationManager.NavigateTo($"sala/{sala.Id}"))>Editar</button>
+                            <button class="btn btn-danger" type="button" @onclick="@(() => Eliminar(sala))">Eliminar</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 
 @code {
+    protected List<SalaDTO> salas = new List<SalaDTO>();
 
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await httpClient.GetFromJsonAsync<List<SalaDTO>>("api/salas");
+        if (response != null)
+        {
+            salas = response;
+        }
+    }
+
+    protected async Task Eliminar(SalaDTO sala)
+    {
+        await httpClient.DeleteAsync($"api/horarios/{sala.Id}");
+        salas.Remove(sala);
+    }
 }
